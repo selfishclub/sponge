@@ -101,7 +101,7 @@
     .week-emoji { display: inline-block; margin-right: 4px; }
     .success-screen { display: none; }
     .success-screen.active { display: block; }
-    .form-screen.hidden-screen { display: none; }
+    .hidden-screen { display: none !important; }
   </style>
 </head>
 <body class="min-h-screen">
@@ -120,7 +120,7 @@
   <main class="max-w-3xl mx-auto px-6 py-12">
 
     <!-- ===== HERO ===== -->
-    <section class="mb-16">
+    <section id="heroSection" class="mb-16">
       <div class="inline-block px-3 py-1 bg-brand-accent text-brand-ink text-xs font-black tracking-wider rounded-full mb-6">PRE-SURVEY</div>
       <h1 class="text-4xl sm:text-5xl font-black tracking-tight leading-tight mb-6">
         🧽 스폰지클럽 1기<br />
@@ -711,7 +711,8 @@
           localStorage.setItem('sponge_submissions', JSON.stringify(all));
         }
 
-        // 성공 화면
+        // 성공 화면 — hero + form 모두 숨김
+        document.getElementById('heroSection').classList.add('hidden-screen');
         document.getElementById('surveyForm').classList.add('hidden-screen');
         const success = document.getElementById('successScreen');
         success.classList.add('active');
