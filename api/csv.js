@@ -1,5 +1,17 @@
 import { kv } from '@vercel/kv';
-import { HEADERS, csvEscape, checkAuth } from './_lib/shared.js';
+import { HEADERS, csvEscape } from './_lib/shared.js';
+
+// CSV는 Bearer + query token 둘 다 허용 (IMPORTDATA 함수 호환)
+function checkAuth(req) {
+  const auth = req.headers.authorization || req.headers.Authorization || '';
+  const headerToken = auth.replace(/^Bearer\s+/i, '').trim();
+  let queryToken = '';
+  try {
+    queryToken = new URL(req.url, 'http://x').searchParams.get('token') || '';
+  } catch {}
+  const token = headerToken || queryToken;
+  return process.env.ADMIN_TOKEN && token && token === process.env.ADMIN_TOKEN;
+}
 
 async function listAll() {
   const keys = [];
